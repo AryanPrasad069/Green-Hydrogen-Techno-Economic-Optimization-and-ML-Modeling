@@ -153,21 +153,6 @@ application.
 Accordingly, results should be interpreted as a comparative course-level
 screening study, not as a bankable project estimate or vendor quotation.
 
-## Repository Contents
-
--   `README.md` --- Project overview, methodology, results and
-    limitations.
--   `Green_Hydrogen_Workbook_with_Optimization.ipynb` --- Computational
-    workbook/notebook, if included in this repository.
--   `Green_Hydrogen_Course_Project_Work_Plan.pdf` --- Project work plan.
--   `HME_Presentation_Final.pdf` --- Final project presentation, if
-    retained in the repository.
--   Final project report PDF --- Add the final report using its exact
-    uploaded filename.
-
-> Update the filenames in this section to match the files currently
-> present in the GitHub repository.
-
 ## Future Scope
 
 -   Replace the synthetic PV profile with site-specific hourly solar
