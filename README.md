@@ -1,134 +1,198 @@
-# Techno-Economic Optimization and ML Modelling of a Solar-Powered Alkaline Electrolyzer
+# Green-Hydrogen-Techno-Economic-Optimization-and-ML-Modeling
 
-A techno-economic and environmental assessment of a standalone solar photovoltaic (PV) system coupled to a pressurised alkaline electrolyzer for green hydrogen production in **Jodhpur, Rajasthan, India**.
+## Techno-Economic Optimization and Environmental Assessment of a Solar-Powered Pressurised Alkaline Electrolyser System
 
-The project combines hourly energy-balance modelling, PV–electrolyzer capacity sizing, levelized cost of hydrogen (LCOH) estimation, environmental screening, and machine-learning surrogate modelling.
+**Study location:** Jodhpur, Rajasthan, India\
+**Project:** Hydrogen and Methanol Economy --- Course Project, IIT
+Jodhpur\
+**Model run:** 26 October 2026
 
-## Project overview
+## Project Overview
 
-Solar PV generation varies throughout the day, while an alkaline electrolyzer has minimum-load and rated-capacity operating limits. An undersized PV array can leave electrolyzer capacity underused; an oversized array can increase capital cost and solar curtailment.
+This project develops a calculation-based techno-economic model for a
+standalone solar photovoltaic (PV) system supplying a pressurised
+alkaline water electrolyser for green hydrogen production in Jodhpur,
+Rajasthan.
 
-This project evaluates the trade-off between PV capacity and electrolyzer capacity for a standalone, off-grid system with no battery or grid backup. The objective is to compare system configurations and identify the lowest calculated LCOH within the tested design grid.
+The system is modelled without battery storage or grid backup. The
+electrolyser follows the available solar power, subject to a 15%
+minimum-load threshold and its rated power limit. The study evaluates PV
+and electrolyser sizing together because the selected capacities affect
+electrolyser utilisation, solar-energy curtailment, hydrogen output and
+the levelized cost of hydrogen (LCOH).
 
-## System boundary and modelling assumptions
+The workflow combines hourly energy modelling, hydrogen and utility
+balances, discounted cash-flow analysis, sensitivity analysis,
+environmental screening and machine-learning-based approximation of the
+engineering model.
 
-The model includes:
+## Project Objectives
 
-- Solar PV electricity generation.
-- Electrical performance losses represented through a performance ratio.
-- A pressurised alkaline electrolyzer with a 15% minimum-load threshold and rated-power limit.
-- Hydrogen production, water consumption, and oxygen co-production.
-- Capital expenditure (CAPEX), operating expenditure (OPEX), and discounted LCOH over a 20-year project horizon.
-- Indicative lifecycle-emissions screening.
+-   Model hourly PV electricity generation and the power accepted by the
+    electrolyser.
+-   Compare PV and electrolyser capacity combinations.
+-   Estimate annual hydrogen production, water demand, oxygen
+    co-production, operating hours and curtailment.
+-   Calculate CAPEX, annual OPEX and discounted LCOH over a 20-year
+    project life.
+-   Examine the sensitivity of LCOH to key technical and economic
+    assumptions.
+-   Estimate indicative greenhouse-gas emissions while documenting the
+    limitations of the environmental boundary.
+-   Train and evaluate Linear Regression and Random Forest models as
+    surrogate predictors of engineering-model LCOH.
 
-The hourly solar profile is synthetic and calibrated to an assumed annual PV yield of **1,850 kWh/kWp**. It is a modelling input, not measured weather data. The electrolyzer specific energy consumption is assumed to be **52 kWh/kg H₂**, and water consumption is assumed to be **11.25 L/kg H₂**.
+## System Configuration and Modelling Approach
 
-## Methodology
+The model represents a standalone PV--pressurised alkaline electrolyser
+system.
 
-### 1. Hourly energy modelling
+1.  **Solar PV model:** An 8,760-hour synthetic PV generation profile is
+    constructed and calibrated to an annual specific yield of 1,850
+    kWh/kWp.
+2.  **Power-management logic:** Electrolyser input is zero below 15% of
+    rated power, follows available PV power between the minimum-load and
+    rated-power limits, and is capped at rated power. Excess PV energy
+    is treated as curtailed.
+3.  **Hydrogen and utility balances:** Hydrogen production is calculated
+    using a system specific energy consumption (SEC) of 52 kWh/kg H₂.
+    Water use is estimated at 11.25 L/kg H₂, and oxygen co-production at
+    approximately 8 kg O₂/kg H₂.
+4.  **Economic model:** CAPEX, annual OPEX, water costs and a year-10
+    stack replacement allowance are included in a discounted 20-year
+    LCOH calculation.
+5.  **Scenario and capacity-grid analysis:** Multiple PV/electrolyser
+    configurations are compared, followed by a capacity-grid search to
+    identify the lowest calculated LCOH within the tested range.
+6.  **Machine-learning surrogate:** Linear Regression is used as a
+    baseline and Random Forest as a nonlinear surrogate. Models are
+    evaluated using a held-out test set and five-fold cross-validation.
 
-An hourly PV generation profile is used to estimate the power available to the electrolyzer. The model applies the minimum-load and rated-capacity constraints, calculates accepted electricity, and accounts for curtailed PV energy.
-
-### 2. Hydrogen and material balances
-
-Annual hydrogen production is calculated from accepted electrolyzer electricity and specific energy consumption. The model also estimates water demand and oxygen co-production using the stated stoichiometric and operating assumptions.
-
-### 3. Techno-economic assessment
-
-The project estimates system CAPEX, annual OPEX, hydrogen output, and discounted LCOH. Six representative configurations are compared, followed by a wider PV/electrolyzer capacity grid.
-
-### 4. Machine-learning surrogate
-
-A dataset of 700 sampled parameter combinations is generated from the engineering model. Linear Regression is used as a baseline and Random Forest Regression as the nonlinear surrogate. The data are split into 80% training and 20% testing, with five-fold cross-validation on the training set.
-
-The model predicts the engineering model's LCOH; it does not independently validate the physical system or replace site-specific engineering data.
-
-### 5. Environmental assessment
-
-The report provides an indicative lifecycle-emissions assessment and evaluates water demand. The environmental results are screening estimates and depend on the system boundary and emission-factor assumptions.
-
-## Key results
-
-### Lowest-LCOH configuration in the tested grid
-
-| Metric | Result |
-|---|---:|
-| PV capacity | 14.0 MWp |
-| Electrolyzer capacity | 7.5 MW |
-| Annual hydrogen production | 452.9 tonnes/year |
-| Initial CAPEX | ₹1,192.5 million |
-| Annual OPEX | ₹26.83 million |
-| Calculated LCOH | ₹350.9/kg H₂ |
-
-This is the lowest-LCOH point in the tested capacity grid, not proof of a global optimum outside the investigated range.
+## Key Results
 
 ### Base-case configuration
 
-| Metric | Result |
-|---|---:|
-| PV capacity | 10 MWp |
-| Electrolyzer capacity | 5 MW |
-| Annual hydrogen production | 311.0 tonnes/year |
-| Capacity factor | 36.9% |
-| PV curtailment | 12.6% |
-| Annual water demand | Approximately 3,498 m³ |
-| Calculated LCOH | ₹352.0/kg H₂ |
+  Parameter                                                         Result
+  -------------------------------------- ---------------------------------
+  PV capacity                                                       10 MWp
+  Electrolyser capacity                                               5 MW
+  Annual hydrogen production                             311.0 tonnes/year
+  Annual PV generation                                      18.50 GWh/year
+  Electricity accepted by electrolyser                      16.17 GWh/year
+  Curtailed PV electricity                                   2.33 GWh/year
+  Electrolyser capacity factor                                       36.9%
+  Annual water requirement                     Approximately 3,498 m³/year
+  Annual oxygen co-production              Approximately 2,488 tonnes/year
+  Initial CAPEX                                          INR 825.0 million
+  Annual OPEX                                            INR 18.35 million
+  Calculated LCOH                            Approximately INR 352.0/kg H₂
 
-### Random Forest surrogate performance
+### Lowest-LCOH configuration in the tested capacity grid
 
-| Metric | Test result |
-|---|---:|
-| R² | 0.777 |
-| MAE | ₹35.5/kg H₂ |
-| RMSE | ₹47.7/kg H₂ |
+  Parameter                                             Result
+  ---------------------------- -------------------------------
+  PV capacity                                         14.0 MWp
+  Electrolyser capacity                                 7.5 MW
+  Annual hydrogen production                 452.9 tonnes/year
+  Initial CAPEX                            INR 1,192.5 million
+  Annual OPEX                                INR 26.83 million
+  Calculated LCOH                Approximately INR 350.9/kg H₂
 
-The Random Forest improves on the linear baseline in reproducing the engineering-model outputs. These scores represent surrogate-model agreement with generated data, not validation against measured plant performance.
+The capacity-grid result is the lowest calculated LCOH among the
+configurations tested; it should not be interpreted as a global optimum
+beyond the tested range. The difference between the base-case and
+lowest-grid LCOH is small under the stated assumptions.
 
-## Repository contents
+### Machine-learning results
 
-The repository includes the project report, calculation workbook with optimization, course project work plan, and final presentation. Open the files listed in the repository to access the detailed calculations, assumptions, figures, and discussion.
+The Random Forest surrogate achieved the following held-out test
+performance when predicting LCOH generated by the engineering model:
 
-- **Project report:** `HME PROJECT REPORT(B23CH1007).pdf`
-- **Calculation and optimization workbook:** Green Hydrogen workbook (Excel file in this repository)
-- **Project work plan:** `Green_Hydrogen_Course_Project_Work_Plan.pdf` (if retained under this filename)
-- **Presentation:** `HME_Presentation_Final.pdf`
+  Model                 Test R²      Test MAE     Test RMSE
+  ------------------- --------- ------------- -------------
+  Linear Regression       0.221   INR 64.7/kg   INR 89.2/kg
+  Random Forest           0.777   INR 35.5/kg   INR 47.7/kg
 
-If filenames are changed on GitHub, update this list to match the exact filenames.
+Random Forest performed better than the linear baseline on the generated
+dataset. These metrics indicate how closely the surrogate reproduces the
+engineering model; they do **not** represent validation against measured
+industrial-plant data.
 
-## Tools and methods
+## Sensitivity and Environmental Assessment
 
-- Python for numerical modelling and data analysis
-- Excel for engineering calculations and scenario comparison
-- Linear Regression and Random Forest Regression
-- Hourly energy-balance modelling
-- Techno-economic analysis and discounted LCOH calculation
-- PV/electrolyzer capacity-grid optimization
+The sensitivity analysis examines the effects of PV CAPEX, electrolyser
+CAPEX, annual solar yield, specific energy consumption and discount rate
+on LCOH. The results show that equipment costs, financing assumptions
+and electrolyser energy consumption can materially influence the
+calculated hydrogen cost.
 
-## Limitations
+For the base case, the report estimates an indicative footprint of
+approximately **3.28 kg CO₂e/kg H₂**. This is a screening estimate based
+on simplified emissions factors, not a complete life-cycle assessment.
+The base-case water requirement is approximately 3,498 m³/year, making
+water sourcing and treatment important considerations for a Jodhpur
+application.
 
-The findings are screening-level results rather than a commercial feasibility study. Key limitations include:
+## Important Modelling Assumptions and Limitations
 
-- Synthetic hourly solar data rather than measured or validated site-specific weather data.
-- Constant electrolyzer specific energy consumption.
-- Simplified start-up, ramping, turndown, and degradation behaviour.
-- Simplified cost and environmental inventories.
-- No battery storage or grid backup.
-- No independent validation against measured plant data.
+-   The hourly solar profile is synthetic, not measured hourly weather
+    or irradiance data.
+-   Annual PV yield is assumed to be 1,850 kWh/kWp.
+-   Electrolyser SEC is held constant at 52 kWh/kg H₂.
+-   The electrolyser minimum-load threshold is 15% of rated capacity.
+-   The model assumes no battery storage and no grid backup.
+-   The economic model uses screening-level equipment costs and a
+    20-year project life.
+-   Detailed start-up and ramp-rate effects, temperature-dependent
+    efficiency, degradation, taxes, subsidies and financing fees are not
+    fully represented.
+-   The environmental estimate is not a complete life-cycle assessment.
+-   ML performance is assessed against model-generated targets, not real
+    plant measurements.
 
-The reported lowest LCOH is limited to the tested grid and assumptions. Before investment decisions, the model should be updated with site-specific hourly weather, current vendor quotations, realistic electrolyzer performance and degradation, and a fuller lifecycle inventory.
+Accordingly, results should be interpreted as a comparative course-level
+screening study, not as a bankable project estimate or vendor quotation.
 
-## Future scope
+## Repository Contents
 
-- Replace the synthetic solar profile with validated hourly weather data for a selected Jodhpur site.
-- Include load-dependent electrolyzer efficiency, start-up energy, ramping, and degradation.
-- Evaluate battery storage and hybrid renewable configurations.
-- Improve CAPEX/OPEX estimates using current vendor quotations.
-- Expand lifecycle assessment to include equipment manufacture, replacement, water treatment, recycling, and hydrogen leakage.
-- Validate the ML surrogate using independent simulation cases or measured plant data.
-- Extend the optimization to consider LCOH, hydrogen output, curtailment, water use, and emissions together.
+-   `README.md` --- Project overview, methodology, results and
+    limitations.
+-   `Green_Hydrogen_Workbook_with_Optimization.ipynb` --- Computational
+    workbook/notebook, if included in this repository.
+-   `Green_Hydrogen_Course_Project_Work_Plan.pdf` --- Project work plan.
+-   `HME_Presentation_Final.pdf` --- Final project presentation, if
+    retained in the repository.
+-   Final project report PDF --- Add the final report using its exact
+    uploaded filename.
 
-## Author
+> Update the filenames in this section to match the files currently
+> present in the GitHub repository.
 
-**Aryan Prasad**  
-B.Tech, Chemical Engineering  
-Indian Institute of Technology Jodhpur
+## Future Scope
+
+-   Replace the synthetic PV profile with site-specific hourly solar
+    data for Jodhpur.
+-   Incorporate load-dependent electrolyser efficiency, start-up losses,
+    ramping and stack degradation.
+-   Use current vendor quotations and more detailed balance-of-plant
+    cost estimates.
+-   Investigate battery storage, hybrid renewable supply and
+    grid-connected configurations.
+-   Expand the environmental assessment into a detailed life-cycle
+    inventory.
+-   Test surrogate predictions against additional engineering-model
+    cases and, where available, measured plant data.
+-   Extend the optimisation to multiple objectives such as LCOH,
+    hydrogen output, curtailment, water use and emissions.
+
+## Technologies and Skills
+
+Python · NumPy · Pandas · Matplotlib · Scikit-learn · Linear Regression
+· Random Forest · Techno-Economic Modelling · Renewable Energy Systems ·
+Alkaline Water Electrolysis · Sensitivity Analysis · Optimisation ·
+Environmental Assessment
+
+------------------------------------------------------------------------
+
+**Academic context:** Hydrogen and Methanol Economy course project,
+Indian Institute of Technology Jodhpur.
