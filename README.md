@@ -132,7 +132,3 @@ The reported lowest LCOH is limited to the tested grid and assumptions. Before i
 **Aryan Prasad**  
 B.Tech, Chemical Engineering  
 Indian Institute of Technology Jodhpur
-
----
-
-*This repository documents an academic course project. Results are based on stated modelling assumptions and should not be interpreted as a vendor quotation or bankable project feasibility assessment.*
